@@ -57,6 +57,24 @@ public class Database {
             System.out.println("Error >> " + t.getMessage());
         }
     }
+    
+    public void lisaaAihealue(String kuvaus) {
+        try (Connection conn = getConnection()) {
+            Statement st = conn.createStatement();
+            String kasky = "INSERT INTO Aihealue (kuvaus) VALUES ('" +kuvaus+"');";
+            
+
+            // suoritetaan komennot
+            
+                System.out.println("Running command >> " + kasky);
+                st.executeUpdate(kasky);
+            
+
+        } catch (Throwable t) {
+            // jos tietokantataulu on jo olemassa, ei komentoja suoriteta
+            System.out.println("Error >> " + t.getMessage());
+        }
+    }
 
     private List<String> sqliteLauseet() {
         ArrayList<String> lista = new ArrayList<>();

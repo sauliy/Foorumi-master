@@ -2,18 +2,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
     <head>
-        <title>Otsikko</title>
+        <title>Kirjautumissivu</title>
         <meta charset="utf-8" />
     </head>
 
     <body>
-        <h1>Heippa vaan!</h1>
+        <h1>Kirjautumis/Rekisteroimis -sivu foorumille!</h1>
 
-        <p>Ja .. <span th:text="${viesti}">jotain?</span></p>
-
-        <p><a href="/kayttajat">Tasta opiskelijalistaukseen.</a></p>
         
-        <h1>Login</h1>
+
+        Nimimerkki ja salasana on max 20 kirjainta. <br/>
+            Muita kayttajia loytyy <a href="/kayttajat">taalta.</a> <br/>
+        Sinun on kirjauduttava jos haluat tehdä taalla jotain. <br/>
+        Jos olet jo kirjautunut sisaan klikkaa <a href="/s/foorumi">tasta.</a> <br/>
+
+        
+        Login
 
         <form method="POST" action="/login">
             Username:<br/>
@@ -23,7 +27,9 @@
             <input type="submit" value="Kirjaudu"/>            
         </form>
         
-        <hl>Rekisterointi</hl>
+        
+        
+        Rekisterointi
         
         <form method="POST" action="/register">
             Username:<br/>
@@ -33,7 +39,7 @@
             <input type="submit" value="Rekisteroidy"/>            
         </form>
         
-        <hl>Kirjaudu ulos</hl>
+        Kirjaudu ulos
         
         <form method="POST" action="/logout">
             <input type="submit" value="Logout"/>

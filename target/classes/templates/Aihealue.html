@@ -7,13 +7,8 @@
     </head>
 
     <body>
-        <h1>Hei kayttajat!</h1>
+        <h1><span th:text="${aihealue.kuvaus}">opiskelija</span>!</h1>
 
-        <ol>
-            <li th:each="kayttaja: ${kayttajat}">
-                <span th:text="${kayttaja.nimi}"> jipii</span>  <a th:href="${'/s/kayttajat/' + kayttaja.nimi}"> linkki </a>
-            </li>
-        </ol>
+        <p>Taalla loytyy keskusteluja aihealueesta <span th:text="${aihealue.kuvaus}"></span></p>
     </body>
-    
 </html>

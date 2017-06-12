@@ -11,7 +11,7 @@
 
         <ol>
             <li th:each="kayttaja: ${kayttajat}">
-                <span th:text="${kayttaja.nimi}"> jipii</span>  <a th:href="${'/kayttajat/' + kayttaja.nimi}"> linkki </a>
+                <span th:text="${kayttaja.nimi}"> jipii</span>  <a th:href="${'/s/kayttajat/' + kayttaja.nimi}"> linkki </a>
             </li>
         </ol>
     </body>

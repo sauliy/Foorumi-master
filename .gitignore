@@ -1,1 +1,5 @@
 */target/**
+target/classes/tikape/runko/database/KäyttäjäDao.class
+target/classes/tikape/runko/database/OpiskelijaDao.class
+target/classes/tikape/runko/domain/Käyttäjä.class
+target/classes/tikape/runko/domain/Opiskelija.class

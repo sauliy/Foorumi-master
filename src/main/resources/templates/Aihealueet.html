@@ -2,16 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
     <head>
-        <title>Otsikko</title>
+        <title>Aihealueet</title>
         <meta charset="utf-8" />
     </head>
 
     <body>
-        <h1>Hei kayttajat!</h1>
+        <h1>Aihealueet!</h1>
 
         <ol>
-            <li th:each="kayttaja: ${kayttajat}">
-                <span th:text="${kayttaja.nimi}"> jipii</span>  <a th:href="${'/s/kayttajat/' + kayttaja.nimi}"> linkki </a>
+            <li th:each="aihealue: ${aihealueet}">
+                <span th:text="${aihealue.kuvaus}"> jipii</span>  <a th:href="${'/s/foorumi/' + aihealue.kuvaus}"> linkki </a>
             </li>
         </ol>
     </body>
