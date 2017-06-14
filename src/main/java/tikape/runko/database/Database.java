@@ -11,7 +11,6 @@ import tikape.runko.domain.Kayttaja;
 public class Database {
 
     private String databaseAddress;
-    
 
     public Database(String databaseAddress) throws ClassNotFoundException {
         this.databaseAddress = databaseAddress;
@@ -39,18 +38,15 @@ public class Database {
             System.out.println("Error >> " + t.getMessage());
         }
     }
-    
+
     public void lisaaKayttaja(String nimimerkki, String salasana) {
         try (Connection conn = getConnection()) {
             Statement st = conn.createStatement();
-            String kasky = "INSERT INTO Kayttaja (nimimerkki, salasana) VALUES ('" +nimimerkki+"','"+salasana+"');";
-            
+            String kasky = "INSERT INTO Kayttaja (nimimerkki, salasana) VALUES ('" + nimimerkki + "','" + salasana + "');";
 
-            // suoritetaan komennot
             
-                System.out.println("Running command >> " + kasky);
-                st.executeUpdate(kasky);
-            
+            System.out.println("Running command >> " + kasky);
+            st.executeUpdate(kasky);
 
         } catch (Throwable t) {
             // jos tietokantataulu on jo olemassa, ei komentoja suoriteta
@@ -58,17 +54,44 @@ public class Database {
         }
     }
     
+    public void lisaaViestiketju(Integer aihealue, String aihe) {
+        try (Connection conn = getConnection()) {
+            Statement st = conn.createStatement();
+            String kasky = "INSERT INTO Viestiketju (aihe, aihealue) VALUES ('" + aihe + "','" + aihealue + "');";
+
+            
+            System.out.println("Running command >> " + kasky);
+            st.executeUpdate(kasky);
+
+        } catch (Throwable t) {
+            // jos tietokantataulu on jo olemassa, ei komentoja suoriteta
+            System.out.println("Error >> " + t.getMessage());
+        }
+    }
+    
+    public void poistaKayttaja(String nimimerkki) {
+        try (Connection conn = getConnection()) {
+            Statement st = conn.createStatement();
+            String kasky = "DELETE FROM Kayttaja WHERE nimimerkki = '"+nimimerkki+"';";
+
+            
+            System.out.println("Running command >> " + kasky);
+            st.executeUpdate(kasky);
+
+        } catch (Throwable t) {
+            // jos tietokantataulu on jo olemassa, ei komentoja suoriteta
+            System.out.println("Error >> " + t.getMessage());
+        }
+    }
+
     public void lisaaAihealue(String kuvaus) {
         try (Connection conn = getConnection()) {
             Statement st = conn.createStatement();
-            String kasky = "INSERT INTO Aihealue (kuvaus) VALUES ('" +kuvaus+"');";
-            
+            String kasky = "INSERT INTO Aihealue (kuvaus) VALUES ('" + kuvaus + "');";
 
             // suoritetaan komennot
-            
-                System.out.println("Running command >> " + kasky);
-                st.executeUpdate(kasky);
-            
+            System.out.println("Running command >> " + kasky);
+            st.executeUpdate(kasky);
 
         } catch (Throwable t) {
             // jos tietokantataulu on jo olemassa, ei komentoja suoriteta

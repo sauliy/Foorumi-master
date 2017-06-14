@@ -125,5 +125,8 @@ public class KayttajaDao implements Dao<Kayttaja, Integer> {
     public void delete(Integer key) throws SQLException {
         // ei toteutettu
     }
+    
+    
+    
 
 }

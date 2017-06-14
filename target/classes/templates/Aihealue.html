@@ -7,8 +7,20 @@
     </head>
 
     <body>
-        <h1><span th:text="${aihealue.kuvaus}">opiskelija</span>!</h1>
+        <h1><span th:text="${aihealue.kuvaus}">aihealue</span>!</h1>
 
         <p>Taalla loytyy keskusteluja aihealueesta <span th:text="${aihealue.kuvaus}"></span></p>
+        
+        <ol>
+            <li th:each="viestiketju: ${viestiketjut}">
+                <span th:text="${viestiketju.aihe}"> jipii</span>  <a th:href="${'/s/foorumi/' + viestiketju.id}"> linkki </a>
+            </li>
+        </ol>
+        
+        Lisaa oma viestiketju tasta, kirjoita vain aihe mista haluat keskustella. Huom! aiheen on liityttava aihealueeseen. Aiheen max pituus on 100 merkkiä.
+        <form action="/s/foorumi/viestiketjunlisays" method="POST">
+            <input type="text" name="aihe"/>
+            <input type="submit"/>
+        </form>
     </body>
 </html>
