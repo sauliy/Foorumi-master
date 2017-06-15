@@ -13,7 +13,7 @@
         
         <ol>
             <li th:each="viestiketju: ${viestiketjut}">
-                <span th:text="${viestiketju.aihe}"> jipii</span>  <a th:href="${'/s/foorumi/' + viestiketju.id}"> linkki </a>
+                <span th:text="${viestiketju.aihe}"> jipii</span>  <a th:href="${'/s/foorumi/'+aihealue.kuvaus+ '/' +viestiketju.id }"> linkki </a>
             </li>
         </ol>
         

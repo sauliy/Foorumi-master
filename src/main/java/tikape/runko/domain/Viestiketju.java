@@ -14,11 +14,19 @@ public class Viestiketju {
     private Integer id;
     private String aihe;
     private Integer aihealue;
+    private String aihealueKuvaus;
     
     public Viestiketju(Integer id, Integer aihealue, String aihe) {
         this.id = id;
         this.aihealue = aihealue;
         this.aihe=aihe;
+    }
+    
+    public Viestiketju(Integer id, Integer aihealue, String aihe, String aihealueKuvaus) {
+        this.id = id;
+        this.aihealue = aihealue;
+        this.aihe=aihe;
+        this.aihealueKuvaus = aihealueKuvaus;
     }
     
     public Integer getId() {
@@ -31,6 +39,10 @@ public class Viestiketju {
 
     public String getAihe() {
         return aihe;
+    }
+    
+    public String getAihealueKuvaus() {
+        return aihealueKuvaus;
     }
 
     public void setAihe(String nimi) {

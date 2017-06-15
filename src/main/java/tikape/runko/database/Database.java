@@ -49,7 +49,7 @@ public class Database {
             st.executeUpdate(kasky);
 
         } catch (Throwable t) {
-            // jos tietokantataulu on jo olemassa, ei komentoja suoriteta
+            
             System.out.println("Error >> " + t.getMessage());
         }
     }
@@ -64,7 +64,7 @@ public class Database {
             st.executeUpdate(kasky);
 
         } catch (Throwable t) {
-            // jos tietokantataulu on jo olemassa, ei komentoja suoriteta
+            
             System.out.println("Error >> " + t.getMessage());
         }
     }
@@ -79,7 +79,7 @@ public class Database {
             st.executeUpdate(kasky);
 
         } catch (Throwable t) {
-            // jos tietokantataulu on jo olemassa, ei komentoja suoriteta
+            
             System.out.println("Error >> " + t.getMessage());
         }
     }
@@ -94,7 +94,7 @@ public class Database {
             st.executeUpdate(kasky);
 
         } catch (Throwable t) {
-            // jos tietokantataulu on jo olemassa, ei komentoja suoriteta
+            
             System.out.println("Error >> " + t.getMessage());
         }
     }

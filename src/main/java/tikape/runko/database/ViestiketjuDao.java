@@ -48,7 +48,7 @@ public class ViestiketjuDao implements Dao<Viestiketju, Integer> {
         stmt.close();
         connection.close();
 
-        return o; //To change body of generated methods, choose Tools | Templates.
+        return o; //
     }
 
     
@@ -70,7 +70,7 @@ public class ViestiketjuDao implements Dao<Viestiketju, Integer> {
         stmt.close();
         connection.close();
 
-        return viestiketjut;//To change body of generated methods, choose Tools | Templates.
+        return viestiketjut;//
     }
 
     @Override
