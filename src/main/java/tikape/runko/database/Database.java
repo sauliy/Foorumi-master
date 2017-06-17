@@ -164,7 +164,7 @@ public class Database {
 
     private List<String> postgreLauseet() {
         ArrayList<String> lista = new ArrayList<>();
-        lista.add("set lock_timeout (30000);");
+        
         lista.add("CREATE TABLE Kayttaja (id integer SERIAL PRIMARY KEY, nimimerkki varchar(20) NOT NULL, salasana varchar(20) NOT NULL, liittymisaika timestamp);");
         lista.add("CREATE TABLE Aihealue (id integer SERIAL PRIMARY KEY, kuvaus varchar(100));");
         lista.add("CREATE TABLE Viestiketju (id integer SERIAL PRIMARY KEY, aihe varchar (100), aihealue integer NOT NULL, FOREIGN KEY(aihealue) REFERENCES Aihealue(id));");
@@ -173,6 +173,8 @@ public class Database {
         lista.add("INSERT INTO Aihealue(id,kuvaus) VALUES ('1','Yleinen alue');");
         lista.add("INSERT INTO Viestiketju(id,aihe, aihealue) VALUES ('1','Nyt keskustellaan','1');");
         lista.add("INSERT INTO Viesti(viestiketju, kayttaja, sisalto) VALUES ('1', '1', 'joojo');");
+        lista.add("set lock_timeout (30000);");
+        lista.add("set statement_timeout (25000);");
         // tietokantataulujen luomiseen tarvittavat komennot suoritusjärjestyksessä
 
         // heroku käyttää SERIAL-avainsanaa uuden tunnuksen automaattiseen luomiseen
