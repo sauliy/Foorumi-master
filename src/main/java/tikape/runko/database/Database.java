@@ -164,6 +164,7 @@ public class Database {
 
     private List<String> postgreLauseet() {
         ArrayList<String> lista = new ArrayList<>();
+        lista.add("set lock_timeout (30000);");
         lista.add("CREATE TABLE Kayttaja (id integer SERIAL PRIMARY KEY, nimimerkki varchar(20) NOT NULL, salasana varchar(20) NOT NULL, liittymisaika timestamp);");
         lista.add("CREATE TABLE Aihealue (id integer SERIAL PRIMARY KEY, kuvaus varchar(100));");
         lista.add("CREATE TABLE Viestiketju (id integer SERIAL PRIMARY KEY, aihe varchar (100), aihealue integer NOT NULL, FOREIGN KEY(aihealue) REFERENCES Aihealue(id));");
