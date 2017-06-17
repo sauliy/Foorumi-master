@@ -19,19 +19,19 @@ import tikape.runko.domain.Kayttaja;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        Database database = new Database("jdbc:sqlite:foorumitesti3.db");
+        
+         // asetetaan portti jos heroku antaa PORT-ympäristömuuttujan
+        if (System.getenv("PORT") != null) {
+            port(Integer.valueOf(System.getenv("PORT")));
+        }
+        
+        Database database = new Database("jdbc:sqlite:foorumitesti4.db");
         database.init();
 
         AihealueDao aihealueDao = new AihealueDao(database);
         KayttajaDao kayttajaDao = new KayttajaDao(database);
         ViestiketjuDao viestiketjuDao = new ViestiketjuDao(database);
-        
-        
-        
-        
 
-        
-        
         get("/", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("viesti", "tervehdys");
@@ -65,13 +65,13 @@ public class Main {
                 res.redirect("/");
                 return "";
             }
-            
+
             req.session(true).attribute("user", kayttaja);
-            
+
             res.redirect("/s/foorumi");
             return "";
         });
-        
+
         before((req, res) -> {
             if (!req.url().contains("/s/")) {
                 return;
@@ -96,27 +96,55 @@ public class Main {
 
             return new ModelAndView(map, "aihealueet");
         }, new ThymeleafTemplateEngine());
-        
-        get("/s/foorumi/:kuvaus", (req,res) -> {
+
+        post("/s/foorumi/aihealueenlisays", (req, res) -> {
+            String aihealueAihe = req.queryParams("aihe");
+
+            Session sess = req.session();
+            if (sess.attribute("user").toString().equals("Sauli")) {
+                database.lisaaAihealue(aihealueAihe);
+            }
+            res.redirect("/s/foorumi/aihealueet");
+            return "";
+        });
+
+        post("/s/foorumi/aihealueenpoisto", (req, res) -> {
+            String aihealueAihe = req.queryParams("aihe");
+
+            Session sess = req.session();
+            if (sess.attribute("user").toString().equals("Sauli")) {
+                database.poistaAihealue(aihealueAihe);
+
+            }
+            res.redirect("/s/foorumi/aihealueet");
+            return "";
+        });
+
+        get("/s/foorumi/salaisuus", (req, res) -> {
+            HashMap map = new HashMap<>();
+            return new ModelAndView(map, "salaisuus");
+        }, new ThymeleafTemplateEngine());
+
+        get("/s/foorumi/:kuvaus", (req, res) -> {
             HashMap map = new HashMap<>();
             Aihealue aihealue = aihealueDao.findOneKuvauksella(req.params("kuvaus"));
             Integer aihealueId = aihealue.getId();
-            
+
             req.session(true).attribute("aihealueTunnus", aihealueId);
             req.session(true).attribute("aihealueKuvaus", aihealue.getKuvaus());
+
             
-            System.out.println(aihealueId);
             map.put("aihealue", aihealue);
             map.put("viestiketjut", viestiketjuDao.findAllAihealueesta(aihealueId));
-            
+
             return new ModelAndView(map, "aihealue");
         }, new ThymeleafTemplateEngine());
-        
-        get("/s/foorumi/:kuvaus/:id", (req,res) -> {
+
+        get("/s/foorumi/:kuvaus/:id", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("kuvaus", aihealueDao.findOneKuvauksella(req.params("kuvaus")));
             map.put("id", viestiketjuDao.findOne(Integer.parseInt(req.params("id"))));
-            
+
             return new ModelAndView(map, "viestiketju");
         }, new ThymeleafTemplateEngine());
 
@@ -132,23 +160,21 @@ public class Main {
             res.redirect("/");
             return "";
         });
-        
-        post("/s/foorumi/viestiketjunlisays", (req,res) -> {
+
+        post("/s/foorumi/viestiketjunlisays", (req, res) -> {
             String viestiketjuAihe = req.queryParams("aihe");
-            
+
             Session sess = req.session();
             Integer aihealueTunnus = sess.attribute("aihealueTunnus");
             String aihealueKuvaus = sess.attribute("aihealueKuvaus");
-            
+
             if (viestiketjuAihe.length() < 101) {
-                database.lisaaViestiketju(aihealueTunnus,viestiketjuAihe);
+                database.lisaaViestiketju(aihealueTunnus, viestiketjuAihe);
             }
-            
-            res.redirect("/s/foorumi/"+aihealueKuvaus);
+
+            res.redirect("/s/foorumi/" + aihealueKuvaus);
             return "";
         });
-
-        
 
         get("/kayttajat", (req, res) -> {
             HashMap map = new HashMap<>();

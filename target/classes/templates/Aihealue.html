@@ -11,11 +11,11 @@
 
         <p>Taalla loytyy keskusteluja aihealueesta <span th:text="${aihealue.kuvaus}"></span></p>
         
-        <ol>
+        <ul>
             <li th:each="viestiketju: ${viestiketjut}">
-                <span th:text="${viestiketju.aihe}"> jipii</span>  <a th:href="${'/s/foorumi/'+aihealue.kuvaus+ '/' +viestiketju.id }"> linkki </a>
+                <span th:text="${viestiketju.aihe}"> jipii</span>  <a th:href="${'/s/foorumi/' +aihealue.kuvaus+ '/' +viestiketju.id }"> linkki </a>
             </li>
-        </ol>
+        </ul>
         
         Lisaa oma viestiketju tasta, kirjoita vain aihe mista haluat keskustella. Huom! aiheen on liityttava aihealueeseen. Aiheen max pituus on 100 merkkiä.
         <form action="/s/foorumi/viestiketjunlisays" method="POST">

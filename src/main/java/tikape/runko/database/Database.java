@@ -69,6 +69,22 @@ public class Database {
         }
     }
     
+    public void lisaaAihealue(String kuvaus) {
+        try (Connection conn = getConnection()) {
+            Statement st = conn.createStatement();
+            
+            String kasky = "INSERT INTO Aihealue (kuvaus) VALUES ('" + kuvaus + "');";
+
+            
+            System.out.println("Running command >> " + kasky);
+            st.executeUpdate(kasky);
+
+        } catch (Throwable t) {
+            
+            System.out.println("Error >> " + t.getMessage());
+        }
+    }
+    
     public void poistaKayttaja(String nimimerkki) {
         try (Connection conn = getConnection()) {
             Statement st = conn.createStatement();
@@ -83,13 +99,14 @@ public class Database {
             System.out.println("Error >> " + t.getMessage());
         }
     }
-
-    public void lisaaAihealue(String kuvaus) {
+    
+    public void poistaAihealue(String aihealueKuvaus) {
         try (Connection conn = getConnection()) {
             Statement st = conn.createStatement();
-            String kasky = "INSERT INTO Aihealue (kuvaus) VALUES ('" + kuvaus + "');";
+            String kasky = "DELETE FROM Aihealue WHERE kuvaus = '"+aihealueKuvaus+"';";
+            
 
-            // suoritetaan komennot
+            
             System.out.println("Running command >> " + kasky);
             st.executeUpdate(kasky);
 
@@ -99,16 +116,19 @@ public class Database {
         }
     }
 
+    
+
     private List<String> sqliteLauseet() {
         ArrayList<String> lista = new ArrayList<>();
         //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //Calendar cal = Calendar.getInstance();
         //String time = dateFormat.format(cal); //2016/11/16 12:08:43
         // tietokantataulujen luomiseen tarvittavat komennot suoritusjarjestyksessa
+        
         lista.add("CREATE TABLE Kayttaja (id integer PRIMARY KEY, nimimerkki varchar(20) NOT NULL, salasana varchar(20) NOT NULL, liittymisaika timestamp);");
         lista.add("CREATE TABLE Aihealue (id integer PRIMARY KEY, kuvaus varchar(100));");
         lista.add("CREATE TABLE Viestiketju (id integer PRIMARY KEY, aihe varchar (100), aihealue integer NOT NULL, FOREIGN KEY(aihealue) REFERENCES Aihealue(id));");
-        lista.add("CREATE TABLE Viesti (viestiketju integer NOT NULL, kayttaja varchar(20) NOT NULL, sisaltö varchar(300) NOT NULL, lahetysaika timestamp, FOREIGN KEY(viestiketju) REFERENCES Viestiketju(id), FOREIGN KEY(kayttaja) REFERENCES Kayttaja(id))");
+        lista.add("CREATE TABLE Viesti (viestiketju integer NOT NULL, kayttaja integer NOT NULL, sisalto varchar(300) NOT NULL, lahetysaika timestamp, FOREIGN KEY(viestiketju) REFERENCES Viestiketju(id), FOREIGN KEY(kayttaja) REFERENCES Kayttaja(id))");
         lista.add("INSERT INTO Kayttaja(id,nimimerkki, salasana) VALUES ('1','Sauli', '123');");
         lista.add("INSERT INTO Aihealue(id,kuvaus) VALUES ('1','Yleinen alue');");
         lista.add("INSERT INTO Viestiketju(id,aihe, aihealue) VALUES ('1','Nyt keskustellaan','1');");
