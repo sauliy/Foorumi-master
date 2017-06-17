@@ -28,7 +28,7 @@ public class Main {
         }
 
         // käytetään oletuksena paikallista sqlite-tietokantaa
-        String jdbcOsoite = "jdbc:sqlite:foorumitesti4.db";
+        String jdbcOsoite = "jdbc:sqlite:foorumitesti10.db";
         // jos heroku antaa käyttöömme tietokantaosoitteen, otetaan se käyttöön
         if (System.getenv("DATABASE_URL") != null) {
             jdbcOsoite = System.getenv("DATABASE_URL");
@@ -216,9 +216,10 @@ public class Main {
             Integer viestiketjuId = sess.attribute("viestiketjuId");
             Kayttaja kayttaja = sess.attribute("user");
             Integer kayttajaId = kayttaja.getId();
+            String nimimerkki = kayttaja.getNimi();
 
             if (sisalto.length() < 301) {
-                database.lisaaViesti(kayttajaId,sisalto,viestiketjuId);
+                database.lisaaViesti(kayttajaId,sisalto,viestiketjuId, nimimerkki);
             }
 
             res.redirect("/s/foorumi/" + sess.attribute("kuvaus")+"/"+viestiketjuId);

@@ -26,11 +26,13 @@ public class Viesti {
 
     }
     
-    public Viesti(int kayttaja ,String sisaltoa, int viestiketju, Timestamp aika ) {
+    public Viesti(int kayttaja ,String sisaltoa, int viestiketju, Timestamp aika,  String nimimerkki) {
         kayttajaid = kayttaja;
         sisalto = sisaltoa;
         viestiketjuid = viestiketju;
-        this.aika = aika;
+        this.aika = aika;  
+        this.nimimerkki = nimimerkki;
+        
     }
 
     public String getNimimerkki() {

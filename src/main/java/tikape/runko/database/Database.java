@@ -147,11 +147,11 @@ public class Database {
         
     }
 
-    public void lisaaViesti(Integer kayttajaid, String sisalto, Integer viestiketjuid) {
+    public void lisaaViesti(Integer kayttajaid, String sisalto, Integer viestiketjuid, String nimimerkki) {
         try (Connection conn = getConnection()) {
             Statement st = conn.createStatement();
             Timestamp aika = new Timestamp(System.currentTimeMillis());
-            String kasky = "INSERT INTO Viesti (viestiketju, kayttaja, sisalto, lahetysaika) VALUES ('" + viestiketjuid + "','" + kayttajaid + "','" + sisalto + "','" + aika + "');";
+            String kasky = "INSERT INTO Viesti (viestiketju, kayttaja, kayttajaNimimerkki, sisalto, lahetysaika) VALUES ('" + viestiketjuid + "','" + kayttajaid + "','" + nimimerkki + "','" + sisalto + "','" + aika + "');";
 
             System.out.println("Running command >> " + kasky);
             st.executeUpdate(kasky);
@@ -167,7 +167,7 @@ public class Database {
         lista.add("CREATE TABLE Kayttaja (id integer SERIAL PRIMARY KEY, nimimerkki varchar(20) NOT NULL, salasana varchar(20) NOT NULL, liittymisaika timestamp);");
         lista.add("CREATE TABLE Aihealue (id integer SERIAL PRIMARY KEY, kuvaus varchar(100));");
         lista.add("CREATE TABLE Viestiketju (id integer SERIAL PRIMARY KEY, aihe varchar (100), aihealue integer NOT NULL, FOREIGN KEY(aihealue) REFERENCES Aihealue(id));");
-        lista.add("CREATE TABLE Viesti (viestiketju integer NOT NULL, kayttaja integer NOT NULL, sisalto varchar(300) NOT NULL, lahetysaika timestamp, FOREIGN KEY(viestiketju) REFERENCES Viestiketju(id), FOREIGN KEY(kayttaja) REFERENCES Kayttaja(id))");
+        lista.add("CREATE TABLE Viesti (viestiketju integer NOT NULL, kayttaja integer NOT NULL, kayttajaNimimerkki varchar(20) NOT NULL, sisalto varchar(300) NOT NULL, lahetysaika timestamp, FOREIGN KEY(viestiketju) REFERENCES Viestiketju(id), FOREIGN KEY(kayttaja) REFERENCES Kayttaja(id))");
         lista.add("INSERT INTO Kayttaja(id,nimimerkki, salasana) VALUES ('1','Sauli', '123');");
         lista.add("INSERT INTO Aihealue(id,kuvaus) VALUES ('1','Yleinen alue');");
         lista.add("INSERT INTO Viestiketju(id,aihe, aihealue) VALUES ('1','Nyt keskustellaan','1');");
@@ -188,7 +188,7 @@ public class Database {
         lista.add("CREATE TABLE Kayttaja (id integer PRIMARY KEY, nimimerkki varchar(20) NOT NULL, salasana varchar(20) NOT NULL, liittymisaika timestamp);");
         lista.add("CREATE TABLE Aihealue (id integer PRIMARY KEY, kuvaus varchar(100));");
         lista.add("CREATE TABLE Viestiketju (id integer PRIMARY KEY, aihe varchar (100), aihealue integer NOT NULL, FOREIGN KEY(aihealue) REFERENCES Aihealue(id));");
-        lista.add("CREATE TABLE Viesti (viestiketju integer NOT NULL, kayttaja integer NOT NULL, sisalto varchar(300) NOT NULL, lahetysaika timestamp, FOREIGN KEY(viestiketju) REFERENCES Viestiketju(id), FOREIGN KEY(kayttaja) REFERENCES Kayttaja(id))");
+        lista.add("CREATE TABLE Viesti (viestiketju integer NOT NULL, kayttaja integer NOT NULL, kayttajaNimimerkki varchar(20) NOT NULL, sisalto varchar(300) NOT NULL, lahetysaika timestamp, FOREIGN KEY(viestiketju) REFERENCES Viestiketju(id), FOREIGN KEY(kayttaja) REFERENCES Kayttaja(id))");
         lista.add("INSERT INTO Kayttaja(id,nimimerkki, salasana) VALUES ('1','Sauli', '123');");
         lista.add("INSERT INTO Aihealue(id,kuvaus) VALUES ('1','Yleinen alue');");
         lista.add("INSERT INTO Viestiketju(id,aihe, aihealue) VALUES ('1','Nyt keskustellaan','1');");

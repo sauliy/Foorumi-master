@@ -13,7 +13,7 @@
 
         <ol>
             <li th:each="viesti: ${viestit}">
-                <span th:text="${viesti}"> jipii</span> &nbsp; &nbsp;  Rakkaudella  <a th:text="${kayttaja.nimi}"> jotain </a> <a th:text="${viesti.aika}"> jotain</a>
+                <span th:text="${viesti}"> jipii</span> &nbsp; &nbsp;  Rakkaudella  <a th:text="${viesti.nimimerkki}"> jotain </a> <a th:text="${viesti.aika}"> jotain</a>
             </li>
         </ol>
 
