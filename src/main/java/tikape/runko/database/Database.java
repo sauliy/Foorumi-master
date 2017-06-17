@@ -1,6 +1,7 @@
 package tikape.runko.database;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -17,7 +18,7 @@ public class Database {
         this.databaseAddress = databaseAddress;
     }
 
-    public Connection getConnection() throws SQLException {
+    public Connection getConnection() throws URISyntaxException, SQLException {
         if (this.databaseAddress.contains("postgres")) {
             try {
                 URI dbUri = new URI(databaseAddress);
