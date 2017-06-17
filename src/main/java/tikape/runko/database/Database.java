@@ -18,7 +18,7 @@ public class Database {
         this.databaseAddress = databaseAddress;
     }
 
-    public Connection getConnection() throws URISyntaxException, SQLException {
+    public Connection getConnection() throws SQLException {
         if (this.databaseAddress.contains("postgres")) {
             try {
                 URI dbUri = new URI(databaseAddress);
