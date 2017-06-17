@@ -167,9 +167,9 @@ public class Database {
     private List<String> postgreLauseet() {
         ArrayList<String> lista = new ArrayList<>();
         
-        lista.add("CREATE TABLE Kayttaja (id integer SERIAL PRIMARY KEY, nimimerkki varchar(20) NOT NULL, salasana varchar(20) NOT NULL, liittymisaika timestamp);");
-        lista.add("CREATE TABLE Aihealue (id integer SERIAL PRIMARY KEY, kuvaus varchar(100));");
-        lista.add("CREATE TABLE Viestiketju (id integer SERIAL PRIMARY KEY, aihe varchar (100), aihealue integer NOT NULL, FOREIGN KEY(aihealue) REFERENCES Aihealue(id));");
+        lista.add("CREATE TABLE Kayttaja (id SERIAL PRIMARY KEY, nimimerkki varchar(20) NOT NULL, salasana varchar(20) NOT NULL, liittymisaika timestamp);");
+        lista.add("CREATE TABLE Aihealue (id SERIAL PRIMARY KEY, kuvaus varchar(100));");
+        lista.add("CREATE TABLE Viestiketju (id SERIAL PRIMARY KEY, aihe varchar (100), aihealue integer NOT NULL, FOREIGN KEY(aihealue) REFERENCES Aihealue(id));");
         lista.add("CREATE TABLE Viesti (viestiketju integer NOT NULL, kayttaja integer NOT NULL, kayttajaNimimerkki varchar(20) NOT NULL, sisalto varchar(300) NOT NULL, lahetysaika timestamp, FOREIGN KEY(viestiketju) REFERENCES Viestiketju(id), FOREIGN KEY(kayttaja) REFERENCES Kayttaja(id))");
         lista.add("INSERT INTO Kayttaja(id,nimimerkki, salasana) VALUES ('1','Sauli', '123');");
         lista.add("INSERT INTO Aihealue(id,kuvaus) VALUES ('1','Yleinen alue');");

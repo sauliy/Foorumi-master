@@ -22,14 +22,14 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-         // asetetaan portti jos heroku antaa PORT-ympÃ¤ristÃ¶muuttujan
+         // asetetaan portti jos heroku antaa PORT-ympÃƒÂ¤ristÃƒÂ¶muuttujan
         if (System.getenv("PORT") != null) {
             port(Integer.valueOf(System.getenv("PORT")));
         }
 
-        // kÃ¤ytetÃ¤Ã¤n oletuksena paikallista sqlite-tietokantaa
-        String jdbcOsoite = "jdbc:sqlite:kanta.db";
-        // jos heroku antaa kÃ¤yttÃ¶Ã¶mme tietokantaosoitteen, otetaan se kÃ¤yttÃ¶Ã¶n
+        // kÃƒÂ¤ytetÃƒÂ¤ÃƒÂ¤n oletuksena paikallista sqlite-tietokantaa
+        String jdbcOsoite = "jdbc:sqlite:kanta1.db";
+         //jos heroku antaa kÃƒÂ¤yttÃƒÂ¶ÃƒÂ¶mme tietokantaosoitteen, otetaan se kÃƒÂ¤yttÃƒÂ¶ÃƒÂ¶n
         if (System.getenv("DATABASE_URL") != null) {
             jdbcOsoite = System.getenv("DATABASE_URL");
         }
