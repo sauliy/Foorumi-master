@@ -25,7 +25,16 @@ public class Main {
             port(Integer.valueOf(System.getenv("PORT")));
         }
         
-        Database database = new Database("jdbc:sqlite:foorumitesti4.db");
+        // käytetään oletuksena paikallista sqlite-tietokantaa
+        String jdbcOsoite = "jdbc:sqlite:foorumitesti4.db";
+        // jos heroku antaa käyttöömme tietokantaosoitteen, otetaan se käyttöön
+        if (System.getenv("DATABASE_URL") != null) {
+            jdbcOsoite = System.getenv("DATABASE_URL");
+        } 
+
+        Database database = new Database(jdbcOsoite);
+        
+        
         database.init();
 
         AihealueDao aihealueDao = new AihealueDao(database);
@@ -142,8 +151,11 @@ public class Main {
 
         get("/s/foorumi/:kuvaus/:id", (req, res) -> {
             HashMap map = new HashMap<>();
+            Session sess = req.session();
+            Kayttaja kayttaja = sess.attribute("user");
             map.put("kuvaus", aihealueDao.findOneKuvauksella(req.params("kuvaus")));
             map.put("id", viestiketjuDao.findOne(Integer.parseInt(req.params("id"))));
+            map.put("kayttaja", kayttaja );
 
             return new ModelAndView(map, "viestiketju");
         }, new ThymeleafTemplateEngine());
