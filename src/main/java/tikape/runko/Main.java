@@ -12,9 +12,11 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.runko.database.AihealueDao;
 import tikape.runko.database.Database;
 import tikape.runko.database.KayttajaDao;
+import tikape.runko.database.ViestiDao;
 import tikape.runko.database.ViestiketjuDao;
 import tikape.runko.domain.Aihealue;
 import tikape.runko.domain.Kayttaja;
+import tikape.runko.domain.Viestiketju;
 
 public class Main {
 
@@ -40,6 +42,7 @@ public class Main {
         AihealueDao aihealueDao = new AihealueDao(database);
         KayttajaDao kayttajaDao = new KayttajaDao(database);
         ViestiketjuDao viestiketjuDao = new ViestiketjuDao(database);
+        ViestiDao viestiDao = new ViestiDao(database);
 
         get("/", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -149,16 +152,24 @@ public class Main {
             return new ModelAndView(map, "Aihealue");
         }, new ThymeleafTemplateEngine());
 
-        get("/s/foorumi/:kuvaus/:id", (req, res) -> {
-            HashMap map = new HashMap<>();
+        get("/s/foorumi/:kuvaus/:id", (req,res) -> {
             Session sess = req.session();
-            Kayttaja kayttaja = sess.attribute("user");
+            HashMap map = new HashMap<>();
             map.put("kuvaus", aihealueDao.findOneKuvauksella(req.params("kuvaus")));
-            map.put("id", viestiketjuDao.findOne(Integer.parseInt(req.params("id"))));
-            map.put("kayttaja", kayttaja );
-
+            map.put("viestiketju", viestiketjuDao.findOne(Integer.parseInt(req.params("id"))));
+            map.put("viestit", viestiDao.findAllViestiketjusta(Integer.parseInt(req.params("id"))));
+            map.put("kayttaja", sess.attribute("user"));
+            
+            Viestiketju viestiketju = (Viestiketju) map.get("viestiketju");
+            
+            
+            req.session(true).attribute("viestiketjuId", viestiketju.getId());
+            req.session(true).attribute("kuvaus", aihealueDao.findOneKuvauksella(req.params("kuvaus")).getKuvaus());
+            
+            
             return new ModelAndView(map, "Viestiketju");
         }, new ThymeleafTemplateEngine());
+
 
         get("/s/kayttajat/:nimi", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -187,6 +198,23 @@ public class Main {
             res.redirect("/s/foorumi/" + aihealueKuvaus);
             return "";
         });
+        
+        post("/s/foorumi/viestinlisays", (req,res) -> {
+            String sisalto = req.queryParams("sisalto");
+            
+            Session sess = req.session();
+            Integer viestiketjuId = sess.attribute("viestiketjuId");
+            Kayttaja kayttaja = sess.attribute("user");
+            Integer kayttajaId = kayttaja.getId();
+            
+            if (sisalto.length() < 301) {
+                database.lisaaViesti(kayttajaId,sisalto,viestiketjuId);
+            }
+            
+            res.redirect("/s/foorumi/" + sess.attribute("kuvaus")+"/"+viestiketjuId);
+            return "";
+        });
+
 
         get("/kayttajat", (req, res) -> {
             HashMap map = new HashMap<>();

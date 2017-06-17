@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import tikape.runko.domain.Viesti;
@@ -39,8 +40,9 @@ public class ViestiDao implements Dao<Viesti, Integer> {
         Integer viestiketjuId = rs.getInt("viestiketju");
         String sisalto = rs.getString("aihe");
         Integer kayttajaId = rs.getInt("sisalto");
+        Timestamp aika = rs.getTimestamp("lahetysaika");
  
-        Viesti o = new Viesti(kayttajaId, sisalto, viestiketjuId);
+        Viesti o = new Viesti(kayttajaId, sisalto, viestiketjuId, aika);
  
         rs.close();
         stmt.close();
@@ -51,16 +53,18 @@ public class ViestiDao implements Dao<Viesti, Integer> {
  
     public List<Viesti> findAllViestiketjusta(Integer viestiketju) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viestiketju WHERE id = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viesti WHERE viestiketju = ?");
         stmt.setObject(1, viestiketju);
         ResultSet rs = stmt.executeQuery();
         List<Viesti> Viestit = new ArrayList<>();
         while (rs.next()) {
  
-            String sisalto = rs.getString("aihe");
-            Integer kayttajaId = rs.getInt("sisalto");
+            String sisalto = rs.getString("sisalto");
+            Integer kayttajaId = rs.getInt("kayttaja");
+            Timestamp aika = rs.getTimestamp("lahetysaika");
+            
  
-            Viestit.add(new Viesti(kayttajaId, sisalto, viestiketju));
+            Viestit.add(new Viesti(kayttajaId, sisalto, viestiketju, aika));
         }
  
         rs.close();
