@@ -75,6 +75,25 @@ public class ViestiDao implements Dao<Viesti, Integer> {
  
         return Viestit;//
     }
+    
+    public int laskeKayttajanViestit(int kayttajanId) throws SQLException {
+    	Connection connection = database.getConnection();
+    	PreparedStatement stmt = connection.prepareStatement("SELECT kayttaja, COUNT(*) AS viesteja FROM Viesti WHERE kayttaja = ? GROUP BY kayttaja");
+    	stmt.setObject(1, kayttajanId);
+    	ResultSet rs = stmt.executeQuery();
+    	Integer viesteja = 0;
+   	 
+    	while (rs.next()) {
+        	viesteja = rs.getInt("viesteja");
+    	}
+   	 
+    	rs.close();
+    	stmt.close();
+    	connection.close();
+   	 
+    	return viesteja;
+	}
+
  
     @Override
     public void delete(Integer key) throws SQLException {

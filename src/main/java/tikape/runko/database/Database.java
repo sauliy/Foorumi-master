@@ -1,7 +1,8 @@
 package tikape.runko.database;
 
 import java.net.URI;
-import java.net.URISyntaxException;
+
+
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -176,9 +177,9 @@ public class Database {
         lista.add("INSERT INTO Viesti(viestiketju, kayttaja, sisalto) VALUES ('1', '1', 'joojo');");
         lista.add("set lock_timeout (30000);");
         lista.add("set statement_timeout (25000);");
-        // tietokantataulujen luomiseen tarvittavat komennot suoritusjärjestyksessä
+        // tietokantataulujen luomiseen tarvittavat komennot suoritusjÃ¤rjestyksessÃ¤
 
-        // heroku käyttää SERIAL-avainsanaa uuden tunnuksen automaattiseen luomiseen
+        // heroku kÃ¤yttÃ¤Ã¤ SERIAL-avainsanaa uuden tunnuksen automaattiseen luomiseen
         return lista;
     }
 
@@ -196,7 +197,7 @@ public class Database {
         lista.add("INSERT INTO Kayttaja(id,nimimerkki, salasana) VALUES ('1','Sauli', '123');");
         lista.add("INSERT INTO Aihealue(id,kuvaus) VALUES ('1','Yleinen alue');");
         lista.add("INSERT INTO Viestiketju(id,aihe, aihealue) VALUES ('1','Nyt keskustellaan','1');");
-        lista.add("INSERT INTO Viesti(viestiketju, kayttaja, sisaltö) VALUES ('1', '1', 'joojo');");
+        lista.add("INSERT INTO Viesti(viestiketju, kayttaja, sisaltÃ¶) VALUES ('1', '1', 'joojo');");
         return lista;
     }
 }

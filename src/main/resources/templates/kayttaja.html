@@ -1,14 +1,15 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-
-    <head>
-        <title>Otsikko</title>
-        <meta charset="utf-8" />
-    </head>
-
-    <body>
-        <h1>Hei <span th:text="${kayttaja.nimi}">opiskelija</span>!</h1>
-
-        <p>Olet saapunut opiskelijan <span th:text="${kayttaja.nimi}">opiskelija</span> henkilokohtaiselle sivulle.</p>
-    </body>
+ 
+	<head>
+    	<title>Otsikko</title>
+    	<meta charset="utf-8" />
+	</head>
+ 
+	<body>
+    	<h1>Hei <span th:text="${kayttaja.nimi}">opiskelija</span>!</h1>
+ 
+    	<p>Olet saapunut kayttajan <span th:text="${kayttaja.nimi}">kayttaja</span> henkilokohtaiselle sivulle.</p>
+    	<h4>Kayttajan lahettamia viesteja yhteensa: <span th:text="${viesteja}">viestit</span></h4>
+	</body>
 </html>

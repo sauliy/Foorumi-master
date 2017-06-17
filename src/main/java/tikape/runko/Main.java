@@ -182,11 +182,13 @@ public class Main {
 
 
         get("/s/kayttajat/:nimi", (req, res) -> {
-            HashMap map = new HashMap<>();
-            map.put("kayttaja", kayttajaDao.findOneNimimerkilla((req.params("nimi"))));
-
-            return new ModelAndView(map, "kayttaja");
-        }, new ThymeleafTemplateEngine());
+        	HashMap map = new HashMap<>();
+        	Kayttaja kayttaja = kayttajaDao.findOneNimimerkilla((req.params("nimi")));
+        	map.put("kayttaja", kayttaja);
+        	map.put("viesteja", viestiDao.laskeKayttajanViestit(kayttaja.getId()));
+       	 
+        	return new ModelAndView(map, "kayttaja");
+    	}, new ThymeleafTemplateEngine());
 
         post("/logout", (req, res) -> {
             req.session().invalidate();

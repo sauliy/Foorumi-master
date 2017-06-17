@@ -45,7 +45,7 @@ public class KayttajaDao implements Dao<Kayttaja, Integer> {
 
         return o;
     }
-    
+
     public Kayttaja findOneNimimerkilla(String nimimerkki) throws SQLException {
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Kayttaja WHERE nimimerkki = ?");
@@ -69,6 +69,7 @@ public class KayttajaDao implements Dao<Kayttaja, Integer> {
 
         return o;
     }
+
     public Kayttaja findOneNimimerkillaJaSalasanalla(String nimimerkki, String salasana) throws SQLException {
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Kayttaja WHERE nimimerkki = ?");
@@ -98,35 +99,34 @@ public class KayttajaDao implements Dao<Kayttaja, Integer> {
         return null;
     }
 
-    @Override
-    public List<Kayttaja> findAll() throws SQLException {
 
-        Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Kayttaja");
+        @Override
+        public List<Kayttaja> findAll() throws SQLException {
 
-        ResultSet rs = stmt.executeQuery();
-        List<Kayttaja> kayttajat = new ArrayList<>();
-        while (rs.next()) {
-            Integer id = rs.getInt("id");
-            String nimi = rs.getString("nimimerkki");
-            String salasana = rs.getString("salasana");
-            
-            kayttajat.add(new Kayttaja(id, nimi, salasana));
+            Connection connection = database.getConnection();
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Kayttaja");
+
+            ResultSet rs = stmt.executeQuery();
+            List<Kayttaja> kayttajat = new ArrayList<>();
+            while (rs.next()) {
+                Integer id = rs.getInt("id");
+                String nimi = rs.getString("nimimerkki");
+                String salasana = rs.getString("salasana");
+
+                kayttajat.add(new Kayttaja(id, nimi, salasana));
+            }
+
+            rs.close();
+            stmt.close();
+            connection.close();
+
+            return kayttajat;
         }
 
-        rs.close();
-        stmt.close();
-        connection.close();
+        @Override
+        public void delete
+        (Integer key) throws SQLException {
+            // ei toteutettu
+        }
 
-        return kayttajat;
     }
-
-    @Override
-    public void delete(Integer key) throws SQLException {
-        // ei toteutettu
-    }
-    
-    
-    
-
-}
