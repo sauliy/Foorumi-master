@@ -103,7 +103,7 @@ public class Main {
             HashMap map = new HashMap<>();
             map.put("aihealueet", aihealueDao.findAll());
 
-            return new ModelAndView(map, "aihealueet");
+            return new ModelAndView(map, "Aihealueet");
         }, new ThymeleafTemplateEngine());
 
         post("/s/foorumi/aihealueenlisays", (req, res) -> {
@@ -146,7 +146,7 @@ public class Main {
             map.put("aihealue", aihealue);
             map.put("viestiketjut", viestiketjuDao.findAllAihealueesta(aihealueId));
 
-            return new ModelAndView(map, "aihealue");
+            return new ModelAndView(map, "Aihealue");
         }, new ThymeleafTemplateEngine());
 
         get("/s/foorumi/:kuvaus/:id", (req, res) -> {
@@ -157,14 +157,14 @@ public class Main {
             map.put("id", viestiketjuDao.findOne(Integer.parseInt(req.params("id"))));
             map.put("kayttaja", kayttaja );
 
-            return new ModelAndView(map, "viestiketju");
+            return new ModelAndView(map, "Viestiketju");
         }, new ThymeleafTemplateEngine());
 
         get("/s/kayttajat/:nimi", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("kayttaja", kayttajaDao.findOneNimimerkilla((req.params("nimi"))));
 
-            return new ModelAndView(map, "käyttäjä");
+            return new ModelAndView(map, "kayttaja");
         }, new ThymeleafTemplateEngine());
 
         post("/logout", (req, res) -> {
