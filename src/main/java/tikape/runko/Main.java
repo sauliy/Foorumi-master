@@ -21,22 +21,22 @@ import tikape.runko.domain.Viestiketju;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        
+
          // asetetaan portti jos heroku antaa PORT-ympäristömuuttujan
         if (System.getenv("PORT") != null) {
             port(Integer.valueOf(System.getenv("PORT")));
         }
-        
+
         // käytetään oletuksena paikallista sqlite-tietokantaa
         String jdbcOsoite = "jdbc:sqlite:foorumitesti4.db";
         // jos heroku antaa käyttöömme tietokantaosoitteen, otetaan se käyttöön
         if (System.getenv("DATABASE_URL") != null) {
             jdbcOsoite = System.getenv("DATABASE_URL");
-        } 
+        }
 
         Database database = new Database(jdbcOsoite);
-        
-        
+
+
         database.init();
 
         AihealueDao aihealueDao = new AihealueDao(database);
@@ -76,9 +76,7 @@ public class Main {
             if (kayttaja == null) {
                 res.redirect("/");
                 return "";
-            }
-
-            req.session(true).attribute("user", kayttaja);
+            } req.session(true).attribute("user", kayttaja);
 
             res.redirect("/s/foorumi");
             return "";
@@ -132,6 +130,18 @@ public class Main {
             return "";
         });
 
+        post("/s/foorumi/viestienpoisto", (req, res) -> {
+            String aihealueAihe = req.queryParams("aihe");
+
+            Session sess = req.session();
+            if (sess.attribute("user").toString().equals("Sauli")) {
+                database.poistaViestit();
+
+            }
+            res.redirect("/s/foorumi/aihealueet");
+            return "";
+        });
+
         get("/s/foorumi/salaisuus", (req, res) -> {
             HashMap map = new HashMap<>();
             return new ModelAndView(map, "salaisuus");
@@ -145,7 +155,7 @@ public class Main {
             req.session(true).attribute("aihealueTunnus", aihealueId);
             req.session(true).attribute("aihealueKuvaus", aihealue.getKuvaus());
 
-            
+
             map.put("aihealue", aihealue);
             map.put("viestiketjut", viestiketjuDao.findAllAihealueesta(aihealueId));
 
@@ -159,14 +169,14 @@ public class Main {
             map.put("viestiketju", viestiketjuDao.findOne(Integer.parseInt(req.params("id"))));
             map.put("viestit", viestiDao.findAllViestiketjusta(Integer.parseInt(req.params("id"))));
             map.put("kayttaja", sess.attribute("user"));
-            
+
             Viestiketju viestiketju = (Viestiketju) map.get("viestiketju");
-            
-            
+
+
             req.session(true).attribute("viestiketjuId", viestiketju.getId());
             req.session(true).attribute("kuvaus", aihealueDao.findOneKuvauksella(req.params("kuvaus")).getKuvaus());
-            
-            
+
+
             return new ModelAndView(map, "Viestiketju");
         }, new ThymeleafTemplateEngine());
 
@@ -198,19 +208,19 @@ public class Main {
             res.redirect("/s/foorumi/" + aihealueKuvaus);
             return "";
         });
-        
+
         post("/s/foorumi/viestinlisays", (req,res) -> {
             String sisalto = req.queryParams("sisalto");
-            
+
             Session sess = req.session();
             Integer viestiketjuId = sess.attribute("viestiketjuId");
             Kayttaja kayttaja = sess.attribute("user");
             Integer kayttajaId = kayttaja.getId();
-            
+
             if (sisalto.length() < 301) {
                 database.lisaaViesti(kayttajaId,sisalto,viestiketjuId);
             }
-            
+
             res.redirect("/s/foorumi/" + sess.attribute("kuvaus")+"/"+viestiketjuId);
             return "";
         });

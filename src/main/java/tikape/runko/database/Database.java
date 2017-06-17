@@ -130,23 +130,37 @@ public class Database {
             System.out.println("Error >> " + t.getMessage());
         }
     }
-    
+
+    public void poistaViestit() {
+        try (Connection conn = getConnection()) {
+            Statement st = conn.createStatement();
+            
+            String kasky = "DELETE FROM Viesti;";
+
+            System.out.println("Running command >> " + kasky);
+            st.executeUpdate(kasky);
+
+        } catch (Throwable t) {
+
+            System.out.println("Error >> " + t.getMessage());
+        }
+        
+    }
+
     public void lisaaViesti(Integer kayttajaid, String sisalto, Integer viestiketjuid) {
         try (Connection conn = getConnection()) {
             Statement st = conn.createStatement();
             Timestamp aika = new Timestamp(System.currentTimeMillis());
-            String kasky = "INSERT INTO Viesti (viestiketju, kayttaja, sisalto, lahetysaika) VALUES ('" + viestiketjuid + "','" + kayttajaid + "','"+  sisalto + "','" + aika + "');";
- 
-            
+            String kasky = "INSERT INTO Viesti (viestiketju, kayttaja, sisalto, lahetysaika) VALUES ('" + viestiketjuid + "','" + kayttajaid + "','" + sisalto + "','" + aika + "');";
+
             System.out.println("Running command >> " + kasky);
             st.executeUpdate(kasky);
- 
+
         } catch (Throwable t) {
-            
+
             System.out.println("Error >> " + t.getMessage());
         }
     }
-
 
     private List<String> postgreLauseet() {
         ArrayList<String> lista = new ArrayList<>();
@@ -159,10 +173,8 @@ public class Database {
         lista.add("INSERT INTO Viestiketju(id,aihe, aihealue) VALUES ('1','Nyt keskustellaan','1');");
         lista.add("INSERT INTO Viesti(viestiketju, kayttaja, sisalto) VALUES ('1', '1', 'joojo');");
         // tietokantataulujen luomiseen tarvittavat komennot suoritusjärjestyksessä
-       
-        // heroku käyttää SERIAL-avainsanaa uuden tunnuksen automaattiseen luomiseen
-        
 
+        // heroku käyttää SERIAL-avainsanaa uuden tunnuksen automaattiseen luomiseen
         return lista;
     }
 
